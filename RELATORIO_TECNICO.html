@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Relatório Técnico — Trabalho da Unidade I — DIM0501</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  html, body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 11.5pt;
+    line-height: 1.45;
+    color: #1a1a1a;
+  }
+  body { margin: 0; }
+  h1, h2, h3, h4 { color: #102a43; line-height: 1.25; }
+  h1 { font-size: 22pt; border-bottom: 2px solid #243b53; padding-bottom: 6px; margin: 0 0 6px 0; }
+  h2 { font-size: 15.5pt; margin-top: 22px; border-bottom: 1px solid #bcccdc; padding-bottom: 3px; }
+  h3 { font-size: 13pt; margin-top: 16px; }
+  h4 { font-size: 11.5pt; margin-top: 12px; }
+  p, ul, ol, table { margin: 6px 0 10px 0; }
+  ul, ol { padding-left: 22px; }
+  li { margin: 2px 0; }
+  code, pre { font-family: "Consolas", "Cascadia Code", "Courier New", monospace; font-size: 10pt; }
+  code { background: #f0f4f8; padding: 1px 4px; border-radius: 3px; }
+  pre {
+    background: #f0f4f8;
+    border: 1px solid #d9e2ec;
+    border-left: 3px solid #486581;
+    border-radius: 3px;
+    padding: 8px 10px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    page-break-inside: avoid;
+  }
+  pre code { background: transparent; padding: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #bcccdc; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #f0f4f8; }
+  blockquote { border-left: 3px solid #bcccdc; padding-left: 10px; color: #486581; margin: 8px 0; }
+  hr { border: none; border-top: 1px solid #d9e2ec; margin: 18px 0; }
+  .meta { color: #486581; font-size: 11pt; }
+  .meta strong { color: #102a43; }
+  .section-break { page-break-before: always; }
+  h2 { page-break-after: avoid; }
+  h3, h4 { page-break-after: avoid; }
+</style>
+</head>
+<body>
+
+<h1>Relatório Técnico — Trabalho da Unidade I</h1>
+<p class="meta">
+  <strong>Disciplina:</strong> DIM0501 — Boas Práticas de Programação<br>
+  <strong>Tema:</strong> Aplicação dos conceitos de boas práticas em cenário simulado<br>
+  <strong>Semestre:</strong> 2026.1
+</p>
+
+<hr>
+
+<h2>1. Identificação do Grupo</h2>
+<ul>
+  <li><strong>Integrante 1:</strong> Luan Pedro Abreu Vieira</li>
+  <li><strong>Linguagem utilizada:</strong> Python</li>
+  <li><strong>Link do repositório Git:</strong> <em>(preencher após publicação)</em></li>
+</ul>
+
+<h2>2. Descrição do Sistema</h2>
+<p>
+  O sistema é um <strong>Monitor de Fake News e Qualidade da Informação</strong>:
+  um pequeno aplicativo de console que permite cadastrar textos de notícias e
+  classificá-los como <strong>confiável</strong>, <strong>duvidosa</strong> ou
+  <strong>falsa</strong>. A classificação pode ser informada manualmente pelo
+  usuário ou determinada automaticamente por uma heurística que considera:
+</p>
+<ul>
+  <li><strong>Ausência de fonte declarada</strong> no texto;</li>
+  <li><strong>Linguagem sensacionalista</strong> (uso de <code>"!!!"</code> ou <code>"URGENTE"</code>);</li>
+  <li><strong>Texto muito curto</strong> (menos de 10 caracteres).</li>
+</ul>
+<p>
+  O objetivo do código original é servir de exemplo simples de coleta e
+  classificação de informações, podendo ser usado em contextos didáticos ou
+  como base para sistemas mais robustos de checagem (ex.: triagem inicial de
+  notícias antes de uma verificação humana).
+</p>
+
+<h2>3. Problemas Identificados</h2>
+
+<h3>3.1 Problemas de Legibilidade</h3>
+<ul>
+  <li>Nomes de variáveis e funções pouco descritivos: <code>data</code>, <code>f</code>, <code>func2</code>, <code>t</code>, <code>c</code>, <code>d</code>, <code>b</code>, <code>op</code>, <code>txt</code>, <code>score</code>.</li>
+  <li>Comentários redundantes e sem valor (apenas reescrevem o código).</li>
+  <li>Ausência total de docstrings e anotações de tipo.</li>
+  <li>Uso de <code>score = score + 1</code> em vez do idiomático <code>score += 1</code>.</li>
+  <li>Comparação <code>b == None</code> em vez de <code>b is None</code>.</li>
+  <li>Iteração com índices (<code>range(0, len(data))</code>) em vez de iterar diretamente sobre a coleção.</li>
+</ul>
+
+<p><strong>Trecho de código (exemplo):</strong></p>
+<pre><code>data = []
+
+# função que faz tudo
+def f(a, b=None):
+    # essa função adiciona uma coisa
+    if a != "":
+        d = {}
+        d["t"] = a
+        if b == None:
+            d["c"] = "duvidosa"
+        else:
+            d["c"] = b
+        data.append(d)
+    else:
+        print("erro")</code></pre>
+
+<p>
+  O nome <code>f</code> não revela intenção, os parâmetros <code>a</code> e
+  <code>b</code> exigem leitura do corpo para serem entendidos, e o comentário
+  “função que faz tudo” é, ao mesmo tempo, desnecessário e indicador de
+  <strong>má modelagem</strong> (a função realmente faz coisas demais).
+</p>
+
+<h3>3.2 Problemas de Organização</h3>
+<ul>
+  <li>Todo o sistema fica em <strong>um único arquivo</strong> (<code>Sistema.py</code>), misturando:
+    <ul>
+      <li>estrutura de dados (<code>data</code> global);</li>
+      <li>regras de classificação (<code>analisar</code>);</li>
+      <li>interface com o usuário (<code>add_manual</code>, <code>add_auto</code>, <code>menu</code>).</li>
+    </ul>
+  </li>
+  <li>Uso de <strong>estado global</strong> (<code>data</code>) que pode ser modificado por qualquer parte do código.</li>
+  <li>Chamada <code>menu()</code> direta no fim do módulo, em vez de <code>if __name__ == "__main__"</code>, o que impede importar o módulo sem executá-lo.</li>
+  <li>A função <code>f</code> mistura <strong>três responsabilidades</strong>: validar o texto, montar a estrutura da notícia e adicioná-la ao armazenamento.</li>
+</ul>
+
+<h3>3.3 Código Duplicado ou Design Ruim</h3>
+<ul>
+  <li><code>add_manual</code> e <code>add_auto</code> repetem o mesmo padrão de leitura do texto.</li>
+  <li>Notícias são representadas por <strong>dicionários soltos</strong> (<code>{"t": ..., "c": ...}</code>) com chaves que ninguém valida nem documenta.</li>
+  <li><strong>Strings mágicas</strong> espalhadas: <code>"confiavel"</code>, <code>"duvidosa"</code>, <code>"falsa"</code>, <code>"FONTE"</code>, <code>"!!!"</code>, <code>"URGENTE"</code>.</li>
+  <li><strong>Números mágicos</strong>: <code>10</code> (tamanho mínimo do texto), <code>0</code> e <code>1</code> (limites de pontuação).</li>
+  <li>A função <code>f</code> é um <em>flag argument</em> (recebe <code>b=None</code> para alternar entre dois comportamentos), o que dificulta a leitura.</li>
+</ul>
+
+<pre><code>def analisar(txt):
+    score = 0
+    if "FONTE" not in txt: score = score + 1
+    if "!!!" in txt: score = score + 1
+    if "URGENTE" in txt: score = score + 1
+    if len(txt) &lt; 10: score = score + 1
+    if score == 0:   return "confiavel"
+    elif score == 1: return "duvidosa"
+    else:            return "falsa"</code></pre>
+
+<h3>3.4 Falta de Validação</h3>
+<ul>
+  <li><code>add_manual</code> aceita <strong>qualquer string</strong> como classificação, mesmo que não corresponda a <code>confiavel</code>/<code>duvidosa</code>/<code>falsa</code>.</li>
+  <li>Texto contendo apenas espaços (<code>"   "</code>) é considerado válido (a comparação é feita com <code>!= ""</code>).</li>
+  <li>Não há tratamento para <code>EOFError</code> ou <code>KeyboardInterrupt</code> (Ctrl+C / Ctrl+Z).</li>
+  <li>Mensagens de erro genéricas (<code>"erro"</code>, <code>"errado"</code>) que não orientam o usuário sobre o que houve.</li>
+</ul>
+
+<h3>3.5 Problemas de Documentação</h3>
+<ul>
+  <li>Comentários redundantes (<code># lista tudo</code>, <code># analisa o texto</code>, <code># função que faz tudo</code>) que não acrescentam informação.</li>
+  <li>Nenhum docstring em módulo, função ou classe.</li>
+  <li>Ausência de <strong>README</strong> explicando como executar e quais são as regras de classificação.</li>
+  <li>Critérios de classificação ficam implícitos em condicionais, em vez de estarem documentados.</li>
+</ul>
+
+<h2>4. Estratégias de Solução</h2>
+
+<h3>4.1 Refatoração</h3>
+<ul>
+  <li>Renomeação de identificadores para refletir o domínio:
+    <ul>
+      <li><code>data</code> → <code>RepositorioNoticias._noticias</code></li>
+      <li><code>f</code> → <code>RepositorioNoticias.adicionar</code> + construção via <code>Noticia(...)</code></li>
+      <li><code>func2</code> → <code>listar</code></li>
+      <li><code>analisar</code> → <code>classificar_noticia</code></li>
+      <li><code>add_manual</code> / <code>add_auto</code> → <code>adicionar_manualmente</code> / <code>adicionar_automaticamente</code></li>
+      <li><code>t</code>, <code>c</code>, <code>txt</code>, <code>score</code>, <code>op</code> → <code>texto</code>, <code>classificacao</code>, <code>indicios</code>, <code>opcao</code>.</li>
+    </ul>
+  </li>
+  <li>Substituição de <strong>strings e números mágicos</strong> por constantes (<code>PALAVRA_FONTE</code>, <code>MARCADOR_EXCLAMACAO</code>, <code>MARCADOR_URGENCIA</code>, <code>TAMANHO_MINIMO_TEXTO</code>, <code>LIMITE_CONFIAVEL</code>, <code>LIMITE_DUVIDOSA</code>).</li>
+  <li>Quebra de funções grandes: a antiga <code>f</code> foi dividida em criação da entidade (<code>Noticia</code>) e armazenamento (<code>RepositorioNoticias.adicionar</code>).</li>
+  <li>Uso de <code>Enum</code> (<code>Classificacao</code>) para garantir que apenas valores válidos circulem pelo sistema.</li>
+  <li>Uso de <code>@dataclass(frozen=True)</code> para a <code>Noticia</code>, tornando-a imutável e dispensando <code>__init__</code>/<code>__repr__</code> manuais.</li>
+  <li>Substituição de <code>range(0, len(data))</code> por iteração direta.</li>
+  <li><code>is None</code> no lugar de <code>== None</code>; <code>+=</code> no lugar de <code>x = x + 1</code>.</li>
+</ul>
+
+<h3>4.2 Modularização</h3>
+<p>A organização passou de <strong>um único arquivo</strong> para uma divisão em camadas:</p>
+<ul>
+  <li><code>modelo/</code> — entidades (<code>Noticia</code>, <code>Classificacao</code>).</li>
+  <li><code>servico/</code> — lógica (<code>classificar_noticia</code>, <code>RepositorioNoticias</code>).</li>
+  <li><code>interface/</code> — CLI (<code>executar</code>, ações do menu).</li>
+  <li><code>main.py</code> — apenas inicializa o programa.</li>
+</ul>
+<p>
+  A direção das dependências é unidirecional
+  (<code>interface</code> → <code>servico</code> → <code>modelo</code>), o que
+  permite, por exemplo, substituir a CLI por outra interface sem tocar nas
+  regras de negócio.
+</p>
+
+<h3>4.3 Programação Defensiva</h3>
+<ul>
+  <li><strong>Validação do texto</strong>: leitura através de <code>_ler_texto_obrigatorio</code>, que rejeita strings vazias ou apenas com espaços e pede nova entrada.</li>
+  <li><strong>Validação da classificação</strong>: <code>Classificacao.a_partir_de_texto</code> aceita variações de caixa/espaços, mas levanta <code>ValueError</code> com mensagem clara para valores inválidos.</li>
+  <li><strong>Validação no analisador</strong>: <code>classificar_noticia</code> levanta <code>ValueError</code> para texto vazio, em vez de retornar uma classificação arbitrária.</li>
+  <li><strong>Validação no repositório</strong>: <code>adicionar</code> exige uma instância de <code>Noticia</code>, levantando <code>TypeError</code> em caso contrário.</li>
+  <li><strong>Tratamento de erros na CLI</strong>: <code>try/except ValueError</code> no loop principal evita que entradas inválidas derrubem o programa, e <code>EOFError</code>/<code>KeyboardInterrupt</code> são capturados para encerrar com mensagem amigável.</li>
+  <li><strong>Mensagens descritivas</strong> substituem <code>"erro"</code> e <code>"errado"</code> por textos que indicam o que ocorreu e como corrigir.</li>
+</ul>
+
+<h3>4.4 Documentação</h3>
+<ul>
+  <li><strong>Docstrings</strong> em todos os módulos, classes e funções públicas, descrevendo propósito, argumentos, retorno e exceções relevantes.</li>
+  <li>Comentários inúteis foram <strong>removidos</strong>; comentários que permanecem explicam decisões não-óbvias (ex.: por que <code>MARCADOR_EXCLAMACAO</code> e <code>MARCADOR_URGENCIA</code> são tratados como dois indícios independentes, preservando o comportamento original).</li>
+  <li><strong>README.md</strong> com:
+    <ul>
+      <li>descrição do sistema;</li>
+      <li>requisitos e instruções de execução;</li>
+      <li>explicação das funcionalidades e critérios de classificação;</li>
+      <li>estrutura de pastas e arquitetura;</li>
+      <li>lista de boas práticas aplicadas.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 class="section-break">5. Exemplos de Melhoria (Antes vs Depois)</h2>
+
+<h3>Exemplo 1 — Função genérica <code>f</code> vira entidade + repositório</h3>
+
+<p><strong>Antes:</strong></p>
+<pre><code>data = []
+
+def f(a, b=None):
+    if a != "":
+        d = {}
+        d["t"] = a
+        if b == None:
+            d["c"] = "duvidosa"
+        else:
+            d["c"] = b
+        data.append(d)
+    else:
+        print("erro")</code></pre>
+
+<p><strong>Depois:</strong></p>
+<pre><code># modelo/noticia.py
+class Classificacao(Enum):
+    CONFIAVEL = "confiavel"
+    DUVIDOSA  = "duvidosa"
+    FALSA     = "falsa"
+
+@dataclass(frozen=True)
+class Noticia:
+    texto: str
+    classificacao: Classificacao
+
+
+# servico/repositorio.py
+class RepositorioNoticias:
+    def __init__(self) -&gt; None:
+        self._noticias: List[Noticia] = []
+
+    def adicionar(self, noticia: Noticia) -&gt; None:
+        if not isinstance(noticia, Noticia):
+            raise TypeError("Apenas instâncias de Noticia podem ser adicionadas.")
+        self._noticias.append(noticia)</code></pre>
+
+<p><strong>Explicação:</strong> a função original <code>f</code> violava o
+<strong>Princípio da Responsabilidade Única</strong>: validava o texto,
+decidia o valor padrão da classificação, montava o dicionário e o adicionava
+em uma lista global. Na versão refatorada:</p>
+<ul>
+  <li>a <strong>estrutura da notícia</strong> virou uma <code>dataclass</code> imutável e tipada;</li>
+  <li>as <strong>classificações válidas</strong> ficam protegidas pelo <code>Enum</code>, eliminando strings mágicas;</li>
+  <li>o <strong>armazenamento</strong> é encapsulado por <code>RepositorioNoticias</code>, que esconde a coleção interna e valida o tipo do objeto recebido;</li>
+  <li>a validação do texto sai dessa camada e passa a ser feita na <strong>interface</strong> e no <strong>analisador</strong>, onde realmente faz sentido.</li>
+</ul>
+
+<h3>Exemplo 2 — Menu com <code>if/elif</code> e mensagens vagas</h3>
+
+<p><strong>Antes:</strong></p>
+<pre><code>def menu():
+    while True:
+        print("1 - adicionar manual")
+        print("2 - adicionar automatico")
+        print("3 - listar")
+        print("4 - sair")
+
+        op = input("opcao: ")
+
+        if op == "1":
+            add_manual()
+        elif op == "2":
+            add_auto()
+        elif op == "3":
+            func2()
+        elif op == "4":
+            break
+        else:
+            print("errado")
+
+menu()</code></pre>
+
+<p><strong>Depois:</strong></p>
+<pre><code># interface/cli.py
+ACOES_MENU: Dict[str, AcaoMenu] = {
+    OPCAO_ADICIONAR_MANUAL: adicionar_manualmente,
+    OPCAO_ADICIONAR_AUTOMATICO: adicionar_automaticamente,
+    OPCAO_LISTAR: listar,
+}
+
+def executar() -&gt; None:
+    repositorio = RepositorioNoticias()
+    while True:
+        _exibir_menu()
+        try:
+            opcao = input("opcao: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            break
+
+        if opcao == OPCAO_SAIR:
+            break
+
+        acao = ACOES_MENU.get(opcao)
+        if acao is None:
+            print("Opção inválida. Escolha 1, 2, 3 ou 4.")
+            continue
+
+        try:
+            acao(repositorio)
+        except ValueError as erro:
+            print(f"Erro: {erro}")</code></pre>
+
+<p><strong>Explicação:</strong></p>
+<ul>
+  <li>A cadeia de <code>if/elif</code> foi substituída por um <strong>mapa de opções</strong> (<code>ACOES_MENU</code>), facilitando adicionar ou remover ações no futuro.</li>
+  <li>As opções viraram <strong>constantes nomeadas</strong> (<code>OPCAO_LISTAR</code>, etc.), o que evita números mágicos e torna o código autoexplicativo.</li>
+  <li>A mensagem <code>"errado"</code> foi substituída por uma orientação clara (<code>"Opção inválida. Escolha 1, 2, 3 ou 4."</code>).</li>
+  <li>O programa passou a tratar <code>EOFError</code> e <code>KeyboardInterrupt</code>, encerrando de forma controlada em vez de exibir um <em>traceback</em>.</li>
+  <li>Erros de validação levantados pelas ações (texto vazio, classificação inválida) são capturados em um único ponto, deixando cada ação focada em seu próprio fluxo principal.</li>
+  <li>A chamada direta <code>menu()</code> no fim do módulo deu lugar a <code>main.py</code> com <code>if __name__ == "__main__"</code>, permitindo importar o pacote sem executar o loop.</li>
+</ul>
+
+<h3>Exemplo 3 — Função <code>analisar</code> com strings/números mágicos</h3>
+
+<p><strong>Antes:</strong></p>
+<pre><code>def analisar(txt):
+    score = 0
+    if "FONTE" not in txt:
+        score = score + 1
+    if "!!!" in txt:
+        score = score + 1
+    if "URGENTE" in txt:
+        score = score + 1
+    if len(txt) &lt; 10:
+        score = score + 1
+
+    if score == 0:
+        return "confiavel"
+    elif score == 1:
+        return "duvidosa"
+    else:
+        return "falsa"</code></pre>
+
+<p><strong>Depois:</strong></p>
+<pre><code># servico/analisador.py
+PALAVRA_FONTE         = "FONTE"
+MARCADOR_EXCLAMACAO   = "!!!"
+MARCADOR_URGENCIA     = "URGENTE"
+TAMANHO_MINIMO_TEXTO  = 10
+LIMITE_CONFIAVEL      = 0
+LIMITE_DUVIDOSA       = 1
+
+
+def classificar_noticia(texto: str) -&gt; Classificacao:
+    if texto is None or not texto.strip():
+        raise ValueError("Texto da notícia não pode ser vazio.")
+
+    indicios = _contar_indicios(texto)
+
+    if indicios &lt;= LIMITE_CONFIAVEL:
+        return Classificacao.CONFIAVEL
+    if indicios &lt;= LIMITE_DUVIDOSA:
+        return Classificacao.DUVIDOSA
+    return Classificacao.FALSA
+
+
+def _contar_indicios(texto: str) -&gt; int:
+    indicios = 0
+    if PALAVRA_FONTE not in texto:
+        indicios += 1
+    if MARCADOR_EXCLAMACAO in texto:
+        indicios += 1
+    if MARCADOR_URGENCIA in texto:
+        indicios += 1
+    if len(texto) &lt; TAMANHO_MINIMO_TEXTO:
+        indicios += 1
+    return indicios</code></pre>
+
+<p><strong>Explicação:</strong> a heurística passou a ser auto-documentada
+por meio de constantes com nomes descritivos. A função foi quebrada em duas:
+<code>classificar_noticia</code> valida a entrada e decide a classificação a
+partir da pontuação; <code>_contar_indicios</code> (privada) concentra os
+critérios. O retorno deixou de ser uma string solta e passou a ser um
+<code>Enum</code>, eliminando a possibilidade de typos como
+<code>"confiável"</code> (com acento) ou <code>"Confiavel"</code> se
+propagarem pelo sistema.</p>
+
+<h2 class="section-break">6. Organização Final do Código</h2>
+
+<pre><code>projeto/
+├── modelo/
+│   ├── __init__.py
+│   └── noticia.py             # Noticia (dataclass) e Classificacao (Enum)
+├── servico/
+│   ├── __init__.py
+│   ├── analisador.py          # classificar_noticia e constantes do critério
+│   └── repositorio.py         # RepositorioNoticias (armazenamento em memória)
+├── interface/
+│   ├── __init__.py
+│   └── cli.py                 # Menu e ações do usuário (CLI)
+├── original/
+│   └── Sistema.py             # Código inicial preservado para referência
+├── main.py                    # Ponto de entrada
+├── README.md
+└── RELATORIO_TECNICO.md</code></pre>
+
+<p><strong>Papel de cada parte:</strong></p>
+<ul>
+  <li><strong><code>modelo/</code></strong>: define <strong>o que</strong> é uma notícia. Não conhece a heurística de classificação nem como ela é exibida ao usuário.</li>
+  <li><strong><code>servico/</code></strong>: contém as <strong>regras de negócio</strong> — o analisador, que decide a classificação a partir do texto, e o repositório, que guarda as notícias na sessão atual.</li>
+  <li><strong><code>interface/</code></strong>: encapsula a <strong>interação com o usuário</strong> — leitura do teclado, exibição do menu e formatação da saída.</li>
+  <li><strong><code>main.py</code></strong>: faz apenas a <em>bootstrap</em> da aplicação, chamando <code>interface.cli.executar()</code> quando executado como script.</li>
+  <li><strong><code>original/Sistema.py</code></strong>: mantido para que seja possível comparar a versão refatorada com a original sem precisar consultar o GitHub.</li>
+</ul>
+
+<h2>7. Conclusão</h2>
+
+<p>
+  O exercício deixou claro que <strong>o tamanho</strong> do código não é,
+  sozinho, indicador de simplicidade: o <code>Sistema.py</code> original cabe
+  em uma tela, mas concentra problemas que tornam a manutenção e a evolução
+  arriscadas. Renomear identificadores, extrair constantes, separar
+  responsabilidades e adicionar validações foram mudanças aparentemente
+  modestas, mas que mudaram a forma de conversar com o código — agora é
+  possível <strong>ler o nome de uma função e prever o que ela faz</strong>,
+  sem precisar mergulhar na sua implementação.
+</p>
+
+<p>As maiores dificuldades foram:</p>
+<ol>
+  <li><strong>Decidir até onde refatorar</strong> sem extrapolar para uma reescrita do zero. A diretriz "manter o funcionamento original" obrigou o grupo a preservar particularidades (como a contagem separada de <code>"!!!"</code> e <code>"URGENTE"</code> ou a sensibilidade a maiúsculas em <code>"FONTE"</code>), mesmo sabendo que poderiam ser melhoradas.</li>
+  <li><strong>Definir a fronteira entre as camadas</strong>: por exemplo, onde colocar a validação do texto vazio. Optamos por validar nas <strong>bordas</strong> — na entrada do CLI e na entrada do analisador — em vez de espalhar <code>if</code>s por todo o código.</li>
+  <li><strong>Equilibrar comentários e clareza</strong>: vários comentários do código original foram retirados porque os nomes refatorados já contam a história; outros foram acrescentados apenas onde havia uma decisão não-óbvia (como a preservação do critério duplicado de sensacionalismo).</li>
+</ol>
+
+<p>As boas práticas impactaram o código em três frentes principais:</p>
+<ul>
+  <li><strong>Legibilidade</strong>: ficou possível entender cada arquivo isoladamente, sem precisar reconstruir o contexto inteiro do programa.</li>
+  <li><strong>Robustez</strong>: o sistema deixou de quebrar diante de entradas inesperadas (Ctrl+C, classificações inválidas, texto vazio) e passou a oferecer mensagens informativas.</li>
+  <li><strong>Evolução</strong>: a separação em camadas e o uso de <code>Enum</code>/<code>dataclass</code> abrem caminho para novas funcionalidades (persistência em arquivo, novos critérios de análise, outra interface de usuário) sem precisar reabrir cada parte do sistema.</li>
+</ul>
+
+<p>
+  Em resumo, <strong>o objetivo do trabalho — reduzir dívida técnica sem
+  reescrever o sistema do zero — foi cumprido</strong>: o comportamento
+  externo permanece o mesmo, mas o código interno passou a comunicar suas
+  intenções com clareza, validar suas próprias entradas e organizar-se em
+  camadas com responsabilidades distintas.
+</p>
+
+</body>
+</html>
