@@ -10,7 +10,7 @@
 
 - **Integrante 1:** Luan Pedro Abreu Vieira
 - **Linguagem utilizada:** Python
-- **Link do repositório Git:** _(preencher após publicação)_
+- **Link do repositório Git:** <https://github.com/LuanPedro01/trabalho-bpp-unidade-1>
 
 ---
 
